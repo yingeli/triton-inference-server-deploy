@@ -6,6 +6,9 @@ image:
   modelRepositoryPath: as://account_name/container_name/path/to/model/repository
   numGpus: 1
 
+gpuModels:
+  - "TYPE_GPU_USED"
+
 service:
   type: ClusterIP
 
