@@ -1,0 +1,14 @@
+replicaCount: 1
+
+image:
+  imageName: nvcr.io/nvidia/tritonserver:26.01-py3
+  pullPolicy: IfNotPresent
+  modelRepositoryPath: as://account_name/container_name/path/to/model/repository
+  numGpus: 1
+
+service:
+  type: ClusterIP
+
+storage-account:
+  name: AZURE_STORAGE_ACCOUNT
+  key: AZURE_STORAGE_KEY
