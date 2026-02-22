@@ -30,9 +30,10 @@ spec:
             limits:
               nvidia.com/gpu: {{ .Values.image.numGpus }}
 
-          args: ["tritonserver", "--model-store={{ .Values.image.modelRepositoryPath }}",
-                 "--model-control-mode=poll",
-                 "--repository-poll-secs=5"]
+          {{- with .Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
           
           runtimeClassName: nvidia
           affinity:
@@ -45,7 +46,11 @@ spec:
                       {{- with .Values.gpuModels }}
                       values:
                         {{- toYaml . | nindent 20 }}
-                      {{- end }}               
+                      {{- end }}
+
+          args: ["tritonserver", "--model-store={{ .Values.image.modelRepositoryPath }}",
+                 "--model-control-mode=poll",
+                 "--repository-poll-secs=5"]                                
 
           env:
           - name: AZURE_STORAGE_ACCOUNT
