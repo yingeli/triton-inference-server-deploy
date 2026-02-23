@@ -30,24 +30,6 @@ spec:
             limits:
               nvidia.com/gpu: {{ .Values.image.numGpus }}
 
-          {{- with .Values.tolerations }}
-          tolerations:
-            {{- toYaml . | nindent 8 }}
-          {{- end }}
-          
-          runtimeClassName: nvidia
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                  - matchExpressions:
-                    - key: nvidia.com/gpu.product
-                      operator: In
-                      {{- with .Values.gpuModels }}
-                      values:
-                        {{- toYaml . | nindent 20 }}
-                      {{- end }}
-
           args: ["tritonserver", "--model-store={{ .Values.image.modelRepositoryPath }}",
                  "--model-control-mode=poll",
                  "--repository-poll-secs=5"]                                
@@ -85,3 +67,21 @@ spec:
       securityContext:
         runAsUser: 1000
         fsGroup: 1000
+
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+          
+      runtimeClassName: nvidia
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: nvidia.com/gpu.product
+                  operator: In
+                  {{- with .Values.gpuModels }}
+                  values:
+                    {{- toYaml . | nindent 20 }}
+                  {{- end }}
