@@ -12,6 +12,6 @@ gpuModels:
 service:
   type: ClusterIP
 
-storage-account:
+storageAccount:
   name: AZURE_STORAGE_ACCOUNT
   key: AZURE_STORAGE_KEY
