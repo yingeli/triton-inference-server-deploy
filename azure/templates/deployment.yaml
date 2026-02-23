@@ -10,10 +10,10 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
-  # selector:
-  #  matchLabels:
-  #    app: {{ template "triton-inference-server.name" . }}
-  #    release: {{ .Release.Name }}
+  selector:
+    matchLabels:
+      app: {{ template "triton-inference-server.name" . }}
+      release: {{ .Release.Name }}
   template:
     metadata:
       labels:
