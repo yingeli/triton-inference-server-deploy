@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   imageName: nvcr.io/nvidia/tritonserver:26.01-py3
   pullPolicy: IfNotPresent
-  modelRepositoryPath: as://account_name/container_name/path/to/model/repository
+  modelRepositoryPath: /models
   numGpus: 1
 
 gpuModels:
@@ -12,6 +12,6 @@ gpuModels:
 service:
   type: ClusterIP
 
-storageAccount:
-  name: AZURE_STORAGE_ACCOUNT
-  key: AZURE_STORAGE_KEY
+modelRepository:
+  existingClaim: model-repository-pvc
+  subdirectory: ""

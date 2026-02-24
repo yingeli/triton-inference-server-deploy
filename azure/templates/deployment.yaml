@@ -32,19 +32,14 @@ spec:
 
           args: ["tritonserver", "--model-store={{ .Values.image.modelRepositoryPath }}",
                  "--model-control-mode=poll",
-                 "--repository-poll-secs=5"]                                
+                 "--repository-poll-secs=5"]
 
-          env:
-          - name: AZURE_STORAGE_ACCOUNT
-            valueFrom:
-              secretKeyRef:
-                name: azure-credentials
-                key: AZURE_STORAGE_ACCOUNT
-          - name: AZURE_STORAGE_KEY
-            valueFrom:
-              secretKeyRef:
-                name: azure-credentials
-                key: AZURE_STORAGE_KEY
+          volumeMounts:
+            - name: model-repository
+              mountPath: {{ .Values.image.modelRepositoryPath }}
+              {{- if .Values.modelRepository.subdirectory }}
+              subPath: {{ .Values.modelRepository.subdirectory }}
+              {{- end }}
 
           ports:
             - containerPort: 8000
@@ -63,6 +58,11 @@ spec:
             httpGet:
               path: /v2/health/ready
               port: http
+
+      volumes:
+        - name: model-repository
+          persistentVolumeClaim:
+            claimName: {{ .Values.modelRepository.existingClaim }}
 
       securityContext:
         runAsUser: 1000
