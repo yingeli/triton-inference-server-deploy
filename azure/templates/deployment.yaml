@@ -33,7 +33,8 @@ spec:
           args: ["tritonserver", "--model-store={{ .Values.image.modelRepositoryPath }}",
                  "--model-control-mode=poll",
                  "--repository-poll-secs=5",
-                 "--disable-auto-complete-config"]
+                 "--disable-auto-complete-config",
+                 "--model-control-mode=none"]
 
           volumeMounts:
             - name: model-repository
