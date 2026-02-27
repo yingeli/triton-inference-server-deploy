@@ -30,10 +30,11 @@ spec:
             limits:
               nvidia.com/gpu: {{ .Values.image.numGpus }}
 
-          args: ["tritonserver", "--model-repository={{ .Values.image.modelRepositoryPath }}"]
+          args: ["tritonserver", "--model-repository={{ .Values.image.modelRepositoryPath }}"
                 #, "--model-control-mode=poll"
                 #, "--repository-poll-secs=5"
-                #, "--disable-auto-complete-config"
+                , "--disable-auto-complete-config"
+                , "--log-verbose=1"]
                 #, "--model-control-mode=none"]
 
           volumeMounts:

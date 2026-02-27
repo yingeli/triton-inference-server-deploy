@@ -1,0 +1,5 @@
+FROM nvcr.io/nvidia/tritonserver:25.12-py3 AS standard_triton
+
+FROM ygsea.azurecr.io/tritonserver:25.12-trtllm-python-py3-cpp-enc-pt
+
+COPY --from=standard_triton /opt/tritonserver/backends/tensorrt /opt/tritonserver/backends/tensorrt
