@@ -43,8 +43,8 @@ spec:
               subPath: {{ .Values.modelRepository.subdirectory }}
               {{- end }}
 
-            - mountPath: /dev/shm
-              name: dshm
+            - name: dshm
+              mountPath: /dev/shm
 
           ports:
             - containerPort: 8000
