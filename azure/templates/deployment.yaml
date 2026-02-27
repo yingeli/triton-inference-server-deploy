@@ -37,6 +37,10 @@ spec:
                 #, "--model-control-mode=none"]
 
           volumeMounts:
+            - mountPath: /dev/shm
+              name: dshm
+
+          volumeMounts:
             - name: model-repository
               mountPath: {{ .Values.image.modelRepositoryPath }}
               {{- if .Values.modelRepository.subdirectory }}
@@ -72,6 +76,12 @@ spec:
         - name: model-repository
           persistentVolumeClaim:
             claimName: {{ .Values.modelRepository.existingClaim }}
+
+      volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            # sizeLimit: 1Gi
 
       securityContext:
         runAsUser: 1000
